@@ -379,7 +379,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         let buffer = _buffers[index]
         
         // draw the bar shadow before the values
-        if dataProvider.isDrawBarShadowEnabled
+		if false //dataProvider.isDrawBarShadowEnabled
         {
             for j in stride(from: 0, to: buffer.rects.count, by: 1)
             {
@@ -428,10 +428,54 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             if !isSingleColor
             {
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
-                context.setFillColor(dataSet.color(atIndex: j).cgColor)
+//                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
+				context.saveGState()
+				
+				let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 3)
+				context.addPath(bezierPath.cgPath)
+				
+				
+				
+				let gradient:CGGradient;
+				let colorspace:CGColorSpace;
+				colorspace = CGColorSpaceCreateDeviceRGB();
+				
+				let color2 :UIColor//= dataSet.color(atIndex: j)//UIColor(red: 49.0/255.0, green: 212.0/255.0, blue: 237.0/255.0, alpha: 1)
+				let color1 :UIColor//(red: 51.0/255.0, green: 63.0/255.0, blue: 1, alpha: 1)
+				
+				if (j == 0) {
+					
+					color2 = UIColor(red: 49.0/255.0, green: 212.0/255.0, blue: 237.0/255.0, alpha: 1)
+					color1 = UIColor(red: 51.0/255.0, green: 63.0/255.0, blue: 1, alpha: 1)
+					
+				} else {
+					color2 = UIColor(red: 214.0/255.0, green: 54.0/255.0, blue: 117.0/255.0, alpha: 1)
+					color1 = UIColor(red: 103.0/255.0, green: 52.0/255.0, blue: 157.0/255.0, alpha: 1)
+					
+				}
+				
+				
+				let colors = [color1.cgColor, color2.cgColor] as CFArray
+				
+				gradient = CGGradient(colorsSpace: colorspace, colors: colors, locations: [0,1])!;
+				
+				
+				let startPoint : CGPoint = CGPoint(x: 0.0, y: viewPortHandler.contentBottom);
+				let endPoint : CGPoint = CGPoint(x: 0.0, y: viewPortHandler.contentTop);
+				
+				context.clip()
+				
+				
+				context.drawLinearGradient(gradient,
+										   start: startPoint,
+										   end: endPoint,
+										   options: CGGradientDrawingOptions.drawsBeforeStartLocation);
+				
+				context.restoreGState()
+
             }
             
-            context.fill(barRect)
+//             context.fill(barRect)
             
             if drawBorder
             {
