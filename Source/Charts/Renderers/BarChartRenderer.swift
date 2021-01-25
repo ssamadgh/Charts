@@ -445,9 +445,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 				
 				let dataSetColors = dataSet.colors
 				
-				if dataSetColors.count > j + 1 {
+				if dataSetColors.count > j + 2 {
 					color2 = dataSetColors[j]
-					color1 = dataSetColors[j + 1]
+					color1 = dataSetColors[j + 2]
 				}
 				else {
 					
