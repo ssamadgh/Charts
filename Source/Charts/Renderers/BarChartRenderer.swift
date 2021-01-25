@@ -431,7 +431,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 //                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
 				context.saveGState()
 				
-				let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: 3)
+				let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: dataSet.cornerRadius)
 				context.addPath(bezierPath.cgPath)
 				
 				
@@ -443,16 +443,27 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 				let color2 :UIColor//= dataSet.color(atIndex: j)//UIColor(red: 49.0/255.0, green: 212.0/255.0, blue: 237.0/255.0, alpha: 1)
 				let color1 :UIColor//(red: 51.0/255.0, green: 63.0/255.0, blue: 1, alpha: 1)
 				
-				if (j == 0) {
+				let dataSetColors = dataSet.colors
+				
+				if dataSetColors.count > j + 1 {
+					color2 = dataSetColors[j]
+					color1 = dataSetColors[j + 1]
+				}
+				else {
 					
-					color2 = UIColor(red: 49.0/255.0, green: 212.0/255.0, blue: 237.0/255.0, alpha: 1)
-					color1 = UIColor(red: 51.0/255.0, green: 63.0/255.0, blue: 1, alpha: 1)
-					
-				} else {
-					color2 = UIColor(red: 214.0/255.0, green: 54.0/255.0, blue: 117.0/255.0, alpha: 1)
-					color1 = UIColor(red: 103.0/255.0, green: 52.0/255.0, blue: 157.0/255.0, alpha: 1)
+					if (j == 0) {
+						
+						color2 = UIColor(red: 49.0/255.0, green: 212.0/255.0, blue: 237.0/255.0, alpha: 1)
+						color1 = UIColor(red: 51.0/255.0, green: 63.0/255.0, blue: 1, alpha: 1)
+						
+					} else {
+						color2 = UIColor(red: 214.0/255.0, green: 54.0/255.0, blue: 117.0/255.0, alpha: 1)
+						color1 = UIColor(red: 103.0/255.0, green: 52.0/255.0, blue: 157.0/255.0, alpha: 1)
+						
+					}
 					
 				}
+				
 				
 				
 				let colors = [color1.cgColor, color2.cgColor] as CFArray

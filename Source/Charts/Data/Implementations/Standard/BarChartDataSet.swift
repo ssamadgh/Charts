@@ -164,4 +164,6 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, IBarChartDat
         copy.highlightAlpha = highlightAlpha
         return copy
     }
+	
+	public var cornerRadius: CGFloat = 0
 }
